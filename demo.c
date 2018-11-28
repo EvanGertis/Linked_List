@@ -105,31 +105,28 @@ int main()
 }/*End of main*/
 
 struct node *insertInBeginning(struct node *start, int data){
-	struct node *p;
-	if(start == NULL){
-		printf("List is empty\n");
-		return NULL;
-	}
-	p = start->link;
-	p->info = data;
+	struct node *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	temp->link = start;
+	start = temp;
+
 	return start;
 };/*End of insertInBeginning*/ 
 
 void insertAtEnd(struct node *start, int data){
-	int n = 0;
-	struct node *p;
-	
-	if(start == NULL){
-		printf("List is empty\n");
-		return;
-	}
+	struct node *p, *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
 	
 	p = start;
-	while(p->link->info != NULL){
+	while(p->link  != NULL){
 		p=p->link;
 	}
-	p->info = data;
-	printf("Number of nodes =%d\n", n);
+	
+	p->link = temp;
+	temp->link = NULL;
 }/*End of insertAtEnd*/
 
 struct node *createList(struct node *start)
