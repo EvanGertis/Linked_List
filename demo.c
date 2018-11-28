@@ -70,21 +70,21 @@ int main()
 				scanf("%d", &data);
 				printf("Enter the element after which to insert : ");
 				scanf("%d", &x);
-				// insert after function.
+				insertAfter(start, data, x);
 				break;
 			case 7:
 				printf("Enter the element to be inserted : ");
 				scanf("%d", &data);
 				printf("enter the element before which to insert : ");
 				scanf("%d", x);
-				// add insert before function.
+				start = insertBefore(start, data, x);
 				break;
 			case 8:
 				printf("Enter the element to be inserted : ");
 				scanf("%d", &data);
 				printf("Enter the position at which to insert : ");
 				scanf("%d", &k);
-				// insert at position.
+				start = insertAtPosition(start, data, k);
 				break;
 			case 9:
 				printf("Enter the element to be deleted : ");
@@ -165,7 +165,58 @@ void displayList(struct node *start){
 		printf("%d", p->info);
 		p = p->link;
 	}
+	
 }/*End of displayList()*/
+
+struct node *insertAtPosition(struct node *start, int data, int k){
+	int n = 0;
+	struct node *p, *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	p = start;
+	while(p != NULL && k < n){
+		p = p->link;
+	}
+
+	temp->link = p->link;
+	p->link = temp;
+	
+	return start; 
+}/*End of insertAtPosition*/
+
+void insertAfter(struct node *start, int data, int x){
+	struct node *p, *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	p = start;
+	while(p != NULL && p->info != x){
+		p = p->link;
+	}
+	
+	temp->link = p->link;
+	p->link = temp;
+	
+}/*End of insert after*/
+
+struct node *insertBefore(struct node *start, int data, int x){
+	struct node *p, *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	temp->info = data;
+	
+	p = start;
+	while(p->link != NULL){
+		if(p->link->info == x){
+			break;
+		}
+		p = p->link;
+	}
+	
+	temp->link = p->link;
+	p->link = temp;
+	return start;
+}/*End of insertBefore()*/
 
 void countNodes(struct node *start){
 	int n = 0;
