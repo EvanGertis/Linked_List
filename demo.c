@@ -143,7 +143,7 @@ struct node *createList(struct node *start)
 	scanf("%d",&data);
 	start=insertInBeginning(start,data);
 
-	for(i=2; i<=n; i++)
+	for(i=1; i<n; i++)
 	{
 		printf("Enter the next element to be inserted : ");
 		scanf("%d",&data);
