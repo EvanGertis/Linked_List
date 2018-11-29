@@ -284,15 +284,40 @@ struct node *deleteNode(struct node *start, int data){
 	struct node *p, *temp;
 	temp = (struct node *)malloc(sizeof(struct node));
 	
+	if(start == NULL)
+	{
+		printf("List is empty\n");
+		return start;
+	}
+	
+	/*Deletion of the first node*/
+	if(start->info == data)
+	{
+		temp = start;
+		start = start->link;
+		free(temp);
+		return start;
+	}
+	
+	/*Deletion in between or at the end*/	
 	p = start;
-	while(p->link != NULL && p->info != data){
+	while(p->link != NULL){
+		if(p->link->info == data)
+		{
+			break;
+		}
 		p = p->link;
 	}
 	
-	p->link = p->link->link;
-	delete p;
-	
-	printf("\n element to be deleted %d \n", p->info);
+	if(p->link == NULL){
+		printf("Element %d not in the list\n\n", data);
+	}
+	else
+	{
+		temp = p->link;
+		p->link = temp->link;
+		free(temp);
+	}
 	
 	return start;
 }/*End deleteNode()*/
