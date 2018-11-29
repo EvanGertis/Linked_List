@@ -13,7 +13,7 @@ void countNodes(struct node *start);
 void search(struct node *start, int x);
 struct node *insertInBeginning(struct node *start, int data);
 void insertAtEnd(struct node *start, int data);
-void insertAfter(struct node *start, int data, int x);
+void insertAfter(struct node *start, int data, int x); 
 struct node *insertBefore(struct node *start, int data, int x);
 struct node *insertAtPosition(struct node *start, int data, int k);
 struct node *deleteNode(struct node *start, int data);
@@ -76,7 +76,7 @@ int main()
 				printf("Enter the element to be inserted : ");
 				scanf("%d", &data);
 				printf("enter the element before which to insert : ");
-				scanf("%d", x);
+				scanf("%d", &x);
 				start = insertBefore(start, data, x);
 				break;
 			case 8:
@@ -89,7 +89,7 @@ int main()
 			case 9:
 				printf("Enter the element to be deleted : ");
 				scanf("%d", &data);
-				// delete node.
+				start = deleteNode(start, data);
 				break;
 			case 10:
 				// reverse list.
@@ -162,21 +162,22 @@ void displayList(struct node *start){
 	p = start;
 	while(p != NULL)
 	{
-		printf("%d", p->info);
+		printf("%d ", p->info);
 		p = p->link;
 	}
 	
 }/*End of displayList()*/
 
 struct node *insertAtPosition(struct node *start, int data, int k){
-	int n = 0;
+	int n = 1;
 	struct node *p, *temp;
 	temp = (struct node *)malloc(sizeof(struct node));
 	temp->info = data;
 	
 	p = start;
-	while(p != NULL && k < n){
+	while(p != NULL && k > n){
 		p = p->link;
+		n++;
 	}
 
 	temp->link = p->link;
@@ -195,15 +196,33 @@ void insertAfter(struct node *start, int data, int x){
 		p = p->link;
 	}
 	
-	temp->link = p->link;
-	p->link = temp;
-	
+	if(p == NULL){
+		printf("%d not present in the list\n", x);
+	}
+	else{	
+		temp->link = p->link;
+		p->link = temp;
+	}	
 }/*End of insert after*/
 
 struct node *insertBefore(struct node *start, int data, int x){
 	struct node *p, *temp;
 	temp = (struct node *)malloc(sizeof(struct node));
-	temp->info = data;
+	
+	if(start == NULL)
+	{
+		printf("List is empty\n");
+		return start;
+	}
+	
+	if(x == start->info)
+	{
+		temp = (struct node *)malloc(sizeof(struct node));
+		temp->info = data;
+		temp->link = start;
+		start = temp;
+		return start;
+	}
 	
 	p = start;
 	while(p->link != NULL){
@@ -213,8 +232,15 @@ struct node *insertBefore(struct node *start, int data, int x){
 		p = p->link;
 	}
 	
-	temp->link = p->link;
-	p->link = temp;
+	if(p->link == NULL){
+		printf("%d not present in the list\n", x);
+	}
+	else
+	{
+		temp->link = p->link;
+		temp->info = data;
+		p->link = temp;
+	}
 	return start;
 }/*End of insertBefore()*/
 
@@ -254,7 +280,22 @@ void search(struct node *start, int x){
 	}
 }/*End search()*/
 
-
+struct node *deleteNode(struct node *start, int data){
+	struct node *p, *temp;
+	temp = (struct node *)malloc(sizeof(struct node));
+	
+	p = start;
+	while(p->link != NULL && p->info != data){
+		p = p->link;
+	}
+	
+	p->link = p->link->link;
+	delete p;
+	
+	printf("\n element to be deleted %d \n", p->info);
+	
+	return start;
+}/*End deleteNode()*/
 
 
 
