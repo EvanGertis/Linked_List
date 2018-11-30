@@ -92,7 +92,7 @@ int main()
 				start = deleteNode(start, data);
 				break;
 			case 10:
-				// reverse list.
+				start = reverseList(start);
 				break;
 			default:
 				break;
@@ -323,4 +323,18 @@ struct node *deleteNode(struct node *start, int data){
 }/*End deleteNode()*/
 
 
-
+struct node *reverseList(struct node *start){
+	struct node *prev, *ptr, *next;
+	prev = NULL;
+	ptr = start;
+	while (ptr != NULL)
+	{
+		next = ptr->link;
+		ptr->link = prev;
+		prev = ptr;
+		ptr = next;
+	}
+	
+	start = prev;
+	return start;
+}
